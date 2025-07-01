@@ -857,9 +857,28 @@ export const mockFAQListHandler = [
       ? filteredItems.length
       : categoryData.pageInfo.totalRecord;
 
+    const expandedItems = [...filteredItems];
+    if (!question.trim() && filteredItems.length < totalRecord) {
+      while (expandedItems.length < totalRecord) {
+        for (
+          let i = 0;
+          i < filteredItems.length && expandedItems.length < totalRecord;
+          i++
+        ) {
+          const item = filteredItems[i];
+          expandedItems.push({
+            ...item,
+            id:
+              item.id +
+              Math.floor(expandedItems.length / filteredItems.length) * 1000,
+          });
+        }
+      }
+    }
+
     const startIndex = 0;
     const endIndex = Math.min(offset + limit, totalRecord);
-    const paginatedItems = filteredItems.slice(startIndex, endIndex);
+    const paginatedItems = expandedItems.slice(startIndex, endIndex);
 
     const prevOffset = Math.max(0, offset - limit);
     const nextOffset = endIndex < totalRecord ? offset + limit : offset;
