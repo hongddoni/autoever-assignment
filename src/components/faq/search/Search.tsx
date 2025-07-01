@@ -25,29 +25,27 @@ export const Search = () => {
   };
 
   return (
-    <form>
-      <div className={"search"}>
-        <div className={"input-wrap"}>
-          <input
-            type="text"
-            placeholder="찾으시는 내용을 입력해 주세요"
-            value={localValue}
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
-          />
-          <button
-            type="button"
-            className={"clear"}
-            data-ui-click="input-clear"
-            onClick={onReset}
-          >
-            다시 입력
-          </button>
-          <button type="button" className={"submit"} onClick={handleSubmit}>
-            검색
-          </button>
-        </div>
+    <div className={"search"}>
+      <div className={"input-wrap"}>
+        <input
+          type="text"
+          placeholder="찾으시는 내용을 입력해 주세요"
+          value={localValue}
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
+        />
+        <button
+          type="button"
+          className={"clear"}
+          data-ui-click="input-clear"
+          onClick={onReset}
+        >
+          다시 입력
+        </button>
+        <button type="button" className={"submit"} onClick={handleSubmit}>
+          검색
+        </button>
       </div>
-    </form>
+    </div>
   );
 };
