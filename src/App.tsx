@@ -1,17 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Layout } from "./layout/Layout";
 import { Header } from "./layout/header/Header";
 import { Content } from "./layout/content/Content";
-import { FAQ } from "./components/faq/FAQ";
+import { FAQContent } from "./components/faq/FAQContent";
 import { Inquiry } from "./components/inquiry/Inquiry";
 import { Process } from "./components/process/Process";
 import { AppInfo } from "./components/appInfo/AppInfo";
 import { Footer } from "./layout/footer/footer";
 import { QuickUtils } from "./components/quickUtil/QuickUtils";
+import { FAQProvider } from "./components/faq/context/FAQProvider";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   useEffect(() => {
     window.addEventListener("scroll", () => {
       const stickyChecker = document.querySelector(".sticky-checker");
@@ -39,23 +39,36 @@ function App() {
     };
   }, []);
 
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+        staleTime: 0,
+      },
+    },
+  });
+
   return (
-    <Layout>
-      <i className="sticky-checker" />
-      <Header />
-      <Content>
-        <h1>
-          자주 묻는 질문
-          <em>궁금하신 내용을 빠르게 찾아보세요.</em>
-        </h1>
-        <FAQ />
-        <Inquiry />
-        <Process />
-        <AppInfo />
-      </Content>
-      <Footer />
-      <QuickUtils />
-    </Layout>
+    <QueryClientProvider client={queryClient}>
+      <FAQProvider>
+        <Layout>
+          <i className="sticky-checker" />
+          <Header />
+          <Content>
+            <h1>
+              자주 묻는 질문
+              <em>궁금하신 내용을 빠르게 찾아보세요.</em>
+            </h1>
+            <FAQContent />
+            <Inquiry />
+            <Process />
+            <AppInfo />
+          </Content>
+          <Footer />
+          <QuickUtils />
+        </Layout>
+      </FAQProvider>
+    </QueryClientProvider>
   );
 }
 

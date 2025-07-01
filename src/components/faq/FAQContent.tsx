@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { Tabs } from "../faq/tabs/Tabs";
-import { Search } from "../faq/search/Search";
-import { SearchInfo } from "../faq/search/SearchInfo";
-import { Filter } from "../faq/filter/Filter";
-import { FAQList } from "../faq/faqList/FAQList";
-
-type Tab = "introduction" | "service";
+import { Tabs } from "./tabs/Tabs";
+import { Search } from "./search/Search";
+import { SearchInfo } from "./search/SearchInfo";
+import { Filter } from "./filter/Filter";
+import { FAQList } from "./faqList/FAQList";
+import type { Tab } from "../../types/tab";
 
 const dummyFAQList = [
   {
@@ -62,24 +61,18 @@ const dummyFilterItems = [
   },
 ];
 
-export const FAQ = () => {
-  const [selected, setSelected] = useState<Tab>("introduction");
+export const FAQContent = () => {
   const [searchValue, setSearchValue] = useState("");
-  const [selectedCategoryId, setSelectedCategoryId] = useState("ALL");
   const [selectedQuestionId, setSelectedQuestionId] = useState<number | null>(
     null
   );
 
   return (
     <>
-      <Tabs selected={selected} setSelected={setSelected} />
+      <Tabs />
       <Search value={searchValue} onChange={setSearchValue} />
       <SearchInfo total={0} />
-      <Filter
-        items={dummyFilterItems}
-        selectedId={selectedCategoryId}
-        onChange={setSelectedCategoryId}
-      />
+      <Filter />
       <FAQList
         items={dummyFAQList}
         selectedQuestionId={selectedQuestionId}

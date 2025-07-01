@@ -1,9 +1,9 @@
 import { http, HttpResponse } from "msw";
 import { setupWorker } from "msw/browser";
-import type { CategoryItem, FAQItem } from "../types/category";
+import type { FaqItem } from "../types/faq";
+import { mockCategoryHandler } from "./mockCategoryHandler";
 
-// 목 데이터
-const mockFAQList: FAQItem[] = [
+const mockFAQList: FaqItem[] = [
   {
     id: 38,
     categoryName: "도입문의",
@@ -38,28 +38,7 @@ const mockFAQList: FAQItem[] = [
   },
 ];
 
-const mockCategoryItems: CategoryItem[] = [
-  {
-    categoryId: "ALL",
-    name: "전체",
-  },
-  {
-    categoryId: "PRODUCT",
-    name: "서비스 상품",
-  },
-  {
-    categoryId: "COUNSELING",
-    name: "도입 상담",
-  },
-  {
-    categoryId: "CONTRACT",
-    name: "계약",
-  },
-];
-
-// MSW 핸들러들
 export const handlers = [
-  // FAQ 목록 조회
   http.get("/api/faqs", ({ request }) => {
     const url = new URL(request.url);
     const category = url.searchParams.get("category");
@@ -67,7 +46,6 @@ export const handlers = [
 
     let filteredFAQs = mockFAQList;
 
-    // 카테고리 필터링
     if (category && category !== "ALL") {
       filteredFAQs = filteredFAQs.filter((faq) => {
         switch (category) {
@@ -83,7 +61,6 @@ export const handlers = [
       });
     }
 
-    // 검색 필터링
     if (search) {
       const searchTerm = search.toLowerCase();
       filteredFAQs = filteredFAQs.filter(
@@ -99,14 +76,6 @@ export const handlers = [
     });
   }),
 
-  // 카테고리 목록 조회
-  http.get("/api/categories", () => {
-    return HttpResponse.json({
-      data: mockCategoryItems,
-    });
-  }),
-
-  // 특정 FAQ 조회
   http.get("/api/faqs/:id", ({ params }) => {
     const id = parseInt(params.id as string);
     const faq = mockFAQList.find((item) => item.id === id);
@@ -117,12 +86,11 @@ export const handlers = [
 
     return HttpResponse.json({ data: faq });
   }),
+  ...mockCategoryHandler,
 ];
 
-// MSW worker 설정
 export const worker = setupWorker(...handlers);
 
-// 개발 환경에서 MSW 시작
 export const startMocking = async () => {
   if (import.meta.env.DEV) {
     return worker.start({

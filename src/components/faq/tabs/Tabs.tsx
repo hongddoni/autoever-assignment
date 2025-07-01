@@ -1,25 +1,20 @@
-type Tab = "introduction" | "service";
+import { useFAQ } from "../context/useFAQ";
 
-interface Props {
-  selected: Tab;
-  setSelected: (tab: Tab) => void;
-}
-
-export const Tabs = (props: Props) => {
-  const { selected, setSelected } = props;
+export const Tabs = () => {
+  const { selectedTab, setSelectedTab } = useFAQ();
   return (
     <ul className={"tabs"}>
       <li
-        className={selected === "introduction" ? "active" : ""}
-        onClick={() => setSelected("introduction")}
+        className={selectedTab === "CONSULT" ? "active" : ""}
+        onClick={() => setSelectedTab("CONSULT")}
       >
         <a>
           <span>서비스 도입</span>
         </a>
       </li>
       <li
-        className={selected === "service" ? "active" : ""}
-        onClick={() => setSelected("service")}
+        className={selectedTab === "USAGE" ? "active" : ""}
+        onClick={() => setSelectedTab("USAGE")}
       >
         <a>
           <span>서비스 이용</span>

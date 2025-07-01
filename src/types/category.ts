@@ -12,6 +12,6 @@ export type CategoryId =
   | "COUPON";
 
 export interface CategoryItem {
-  categoryId: CategoryId;
+  categoryID: CategoryId;
   name: string;
 }

@@ -6,5 +6,5 @@ export interface FaqItem {
   id: number;
   question: string;
   subCategoryName: string;
-  faqCategoryId: CategoryId | null;
+  faqCategoryId?: CategoryId;
 }

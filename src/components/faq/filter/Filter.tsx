@@ -1,32 +1,35 @@
-type CategoryId = "ALL" | "PRODUCT" | "COUNSELING" | "CONTRACT";
+import type { CategoryItem } from "../../../types/category";
+import { useFAQ } from "../context/useFAQ";
+import { useFilter } from "./useFilter";
+import { Suspense } from "react";
 
-interface Item {
-  categoryId: CategoryId;
-  name: string;
-}
+const DEFAULT_CATEGORY: CategoryItem = {
+  categoryID: "ALL",
+  name: "전체",
+};
 
-interface Props {
-  items: Item[];
-  selectedId: CategoryId;
-  onChange: (id: CategoryId) => void;
-}
+export const Filter = () => {
+  const { selectedTab, selectedCategoryId, setSelectedCategoryId } = useFAQ();
+  const categoryItems = useFilter(selectedTab);
 
-export const Filter = (props: Props) => {
-  const { items, selectedId, onChange } = props;
+  const items: CategoryItem[] = [DEFAULT_CATEGORY, ...(categoryItems ?? [])];
+
   return (
-    <div className={"filter"}>
-      {items.map((item) => (
-        <label key={item.categoryId}>
-          <input
-            type="radio"
-            name="category"
-            value={item.categoryId}
-            checked={selectedId === item.categoryId}
-            onChange={() => onChange(item.categoryId)}
-          />
-          <i>{item.name}</i>
-        </label>
-      ))}
-    </div>
+    <Suspense fallback={<div>Loading...</div>}>
+      <div className={"filter"}>
+        {items.map((item) => (
+          <label key={item.categoryID}>
+            <input
+              type="radio"
+              name="category"
+              value={item.categoryID}
+              checked={selectedCategoryId === item.categoryID}
+              onChange={() => setSelectedCategoryId(item.categoryID)}
+            />
+            <i>{item.name}</i>
+          </label>
+        ))}
+      </div>
+    </Suspense>
   );
 };
