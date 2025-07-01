@@ -1,1 +1,1 @@
-export type Tab = 'CONSULT' | 'USAGE';
+export type Tab = "CONSULT" | "USAGE";

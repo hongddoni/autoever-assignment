@@ -1,31 +1,34 @@
-interface Item {
-  id: number;
-  categoryName: string;
-  subCategoryName: string;
-  question: string;
-  answer: string;
-}
+import { useState } from "react";
+import { useFAQ } from "../context/useFAQ";
+import { useFAQList } from "./useFAQList";
 
-interface Props {
-  items: Item[];
-  selectedQuestionId: number | null;
-  onToggle: (id: number | null) => void;
-}
+const DEFAULT_PAGINATION = {
+  limit: 10,
+  offset: 0,
+};
 
-export const FAQList = (props: Props) => {
-  const { items, selectedQuestionId, onToggle } = props;
+export const FAQList = () => {
+  const { selectedTab, selectedCategoryId } = useFAQ();
+  const faqList = useFAQList({
+    ...DEFAULT_PAGINATION,
+    tab: selectedTab,
+    faqCategoryID: selectedCategoryId,
+  });
+  const [selectedQuestionId, setSelectedQuestionId] = useState<number | null>(
+    null
+  );
 
   const handleToggle = (id: number) => {
     if (id === selectedQuestionId) {
-      onToggle(null);
+      setSelectedQuestionId(null);
     } else {
-      onToggle(id);
+      setSelectedQuestionId(id);
     }
   };
 
   return (
     <ul className={"faq-list"}>
-      {items.map((item) => (
+      {faqList?.map((item) => (
         <li
           key={item.id}
           data-ui-item="true"
