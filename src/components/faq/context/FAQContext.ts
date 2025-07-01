@@ -11,11 +11,13 @@ export interface FAQContextType {
   faqList: FaqItem[];
   pageInfo: PaginationRs;
   selectedQuestionId: number | null;
+  offset: number;
 
-  setSelectedQuestionId: (questionId: number | null) => void;
   setSelectedTab: (tab: Tab) => void;
   setSelectedCategoryId: (categoryId: CategoryId) => void;
   setSearchValue: (value: string) => void;
+  setSelectedQuestionId: (id: number | null) => void;
+  loadMore: () => void;
 }
 
 export const FAQContext = createContext<FAQContextType | undefined>(undefined!);

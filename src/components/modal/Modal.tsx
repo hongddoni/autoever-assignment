@@ -56,7 +56,6 @@ export const Modal = ({
     };
   }, [isOpen]);
 
-  // 오버레이 클릭 처리
   const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (closeOnOverlayClick && event.target === event.currentTarget) {
       onClose();

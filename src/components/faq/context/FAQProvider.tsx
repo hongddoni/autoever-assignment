@@ -23,36 +23,40 @@ export const FAQProvider = (props: Props) => {
   const [selectedQuestionId, setSelectedQuestionId] = useState<number | null>(
     null
   );
+  const [offset, setOffset] = useState(0);
 
   const { faqList, pageInfo } = useFetchFAQList({
     ...DEFAULT_PAGINATION,
+    offset,
     tab: selectedTab,
     faqCategoryID: selectedCategoryId,
     question: searchValue.length > 0 ? searchValue : undefined,
   });
 
-  const onCategoryChange = useCallback(
-    (categoryId: CategoryId) => {
-      setSelectedCategoryId(categoryId);
-      setSelectedQuestionId(null);
-    },
-    [setSelectedCategoryId, setSelectedQuestionId]
-  );
+  const loadMore = useCallback(() => {
+    if (pageInfo.nextOffset !== undefined && pageInfo.nextOffset > offset) {
+      setOffset(pageInfo.nextOffset);
+    }
+  }, [pageInfo.nextOffset, offset]);
 
-  const onTabChange = useCallback(
-    (tab: Tab) => {
-      setSelectedTab(tab);
-      setSelectedCategoryId("ALL");
-      setSearchValue("");
-      setSelectedQuestionId(null);
-    },
-    [
-      setSelectedTab,
-      setSelectedCategoryId,
-      setSearchValue,
-      setSelectedQuestionId,
-    ]
-  );
+  const onCategoryChange = useCallback((categoryId: CategoryId) => {
+    setSelectedCategoryId(categoryId);
+    setSelectedQuestionId(null);
+    setOffset(0); 
+  }, []);
+
+  const onTabChange = useCallback((tab: Tab) => {
+    setSelectedTab(tab);
+    setSelectedCategoryId("ALL");
+    setSearchValue("");
+    setSelectedQuestionId(null);
+    setOffset(0);
+  }, []);
+
+  const onSearchChange = useCallback((value: string) => {
+    setSearchValue(value);
+    setOffset(0);
+  }, []);
 
   const value: FAQContextType = {
     selectedTab,
@@ -60,11 +64,13 @@ export const FAQProvider = (props: Props) => {
     selectedCategoryId,
     setSelectedCategoryId: onCategoryChange,
     searchValue,
-    setSearchValue,
+    setSearchValue: onSearchChange,
     faqList,
     pageInfo,
     selectedQuestionId,
     setSelectedQuestionId,
+    offset,
+    loadMore,
   };
 
   return <FAQContext.Provider value={value}>{children}</FAQContext.Provider>;

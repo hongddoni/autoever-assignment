@@ -857,7 +857,7 @@ export const mockFAQListHandler = [
       ? filteredItems.length
       : categoryData.pageInfo.totalRecord;
 
-    const startIndex = offset;
+    const startIndex = 0;
     const endIndex = Math.min(offset + limit, totalRecord);
     const paginatedItems = filteredItems.slice(startIndex, endIndex);
 

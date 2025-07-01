@@ -8,7 +8,6 @@ export const useFAQList = () => {
     throw new Error("useFAQList must be used within a FAQProvider");
   }
 
-  // FAQ 리스트 관련 필드들만 반환
   return {
     searchValue: context.searchValue,
     setSearchValue: context.setSearchValue,
@@ -16,5 +15,6 @@ export const useFAQList = () => {
     pageInfo: context.pageInfo,
     selectedQuestionId: context.selectedQuestionId,
     setSelectedQuestionId: context.setSelectedQuestionId,
+    loadMore: context.loadMore,
   };
 };
