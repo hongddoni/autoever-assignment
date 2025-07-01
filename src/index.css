@@ -2340,7 +2340,7 @@ footer .copyright:before {
 	width: var(--ic-xlg2);
 	height: var(--ic-xlg2);
 	margin: 0 auto var(--space-xsm2);
-	background: url(../images/ic_nodata.svg) no-repeat;
+	background: url('./assets/nodata.svg') no-repeat;
 	background-size: auto 100%;
 }
 .no-data > p {
@@ -2849,7 +2849,7 @@ footer .copyright:before {
 	width: var(--ic-xxlg);
 	height: var(--ic-xxlg);
 	margin: 0 auto var(--space-md);
-	background: url(../images/ic_nodata.svg) no-repeat;
+	background: url('./assets/nodata.svg') no-repeat;
 	background-size: auto 100%;
 }
 .error-info > strong {

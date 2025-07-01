@@ -1,4 +1,5 @@
 import { useFAQList } from "../context/useFAQList";
+import { FAQEmpty } from "./FAQEmpty";
 
 export const FAQList = () => {
   const { faqList, selectedQuestionId, setSelectedQuestionId } = useFAQList();
@@ -10,6 +11,10 @@ export const FAQList = () => {
       setSelectedQuestionId(id);
     }
   };
+
+  if (faqList.length === 0) {
+    return <FAQEmpty />;
+  }
 
   return (
     <ul className={"faq-list"}>
