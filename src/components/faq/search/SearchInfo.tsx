@@ -1,11 +1,13 @@
 import { useFAQList } from "../context/useFAQList";
 
 export const SearchInfo = () => {
-  const { pageInfo, setSearchValue } = useFAQList();
+  const { pageInfo, searchValue, setSearchValue } = useFAQList();
 
   const handleReset = () => {
     setSearchValue("");
   };
+
+  if (searchValue.length < 1) return null;
 
   return (
     <div className={"search-info"}>

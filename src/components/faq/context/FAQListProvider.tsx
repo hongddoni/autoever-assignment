@@ -16,11 +16,11 @@ export const FAQListProvider = ({
   const { selectedTab, selectedCategoryId } = useFAQ();
   const [searchValue, setSearchValue] = useState("");
 
-  const {faqList, pageInfo} = useFetchFAQList({
+  const { faqList, pageInfo } = useFetchFAQList({
     ...DEFAULT_PAGINATION,
     tab: selectedTab,
     faqCategoryID: selectedCategoryId,
-    question: searchValue,
+    question: searchValue.length > 0 ? searchValue : undefined,
   });
 
   return (

@@ -853,7 +853,10 @@ export const mockFAQListHandler = [
       );
     }
 
-    const totalRecord = filteredItems.length;
+    const totalRecord = question.trim()
+      ? filteredItems.length
+      : categoryData.pageInfo.totalRecord;
+
     const startIndex = offset;
     const endIndex = Math.min(offset + limit, totalRecord);
     const paginatedItems = filteredItems.slice(startIndex, endIndex);
