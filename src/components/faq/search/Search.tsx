@@ -1,7 +1,29 @@
-import { useSearch } from "../context/useSearch";
+import { useState } from "react";
+import { useFAQList } from "../context/useFAQList";
 
 export const Search = () => {
-  const { searchValue, setSearchValue } = useSearch();
+  const { searchValue, setSearchValue } = useFAQList();
+  const [localValue, setLocalValue] = useState(searchValue);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLocalValue(e.target.value);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSubmit();
+    }
+  };
+
+  const handleSubmit = () => {
+    setSearchValue(localValue);
+  };
+
+  const onReset = () => {
+    setLocalValue("");
+    setSearchValue("");
+  };
+
   return (
     <form>
       <div className={"search"}>
@@ -9,13 +31,19 @@ export const Search = () => {
           <input
             type="text"
             placeholder="찾으시는 내용을 입력해 주세요"
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
+            value={localValue}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
           />
-          <button type="button" className={"clear"} data-ui-click="input-clear">
+          <button
+            type="button"
+            className={"clear"}
+            data-ui-click="input-clear"
+            onClick={onReset}
+          >
             다시 입력
           </button>
-          <button type="button" className={"submit"}>
+          <button type="button" className={"submit"} onClick={handleSubmit}>
             검색
           </button>
         </div>

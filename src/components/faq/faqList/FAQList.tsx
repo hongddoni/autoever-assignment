@@ -1,19 +1,8 @@
 import { useState } from "react";
-import { useFAQ } from "../context/useFAQ";
-import { useFAQList } from "./useFAQList";
-
-const DEFAULT_PAGINATION = {
-  limit: 10,
-  offset: 0,
-};
+import { useFAQList } from "../context/useFAQList";
 
 export const FAQList = () => {
-  const { selectedTab, selectedCategoryId } = useFAQ();
-  const faqList = useFAQList({
-    ...DEFAULT_PAGINATION,
-    tab: selectedTab,
-    faqCategoryID: selectedCategoryId,
-  });
+  const { faqList } = useFAQList();
   const [selectedQuestionId, setSelectedQuestionId] = useState<number | null>(
     null
   );
