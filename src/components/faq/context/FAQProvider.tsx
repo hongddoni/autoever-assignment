@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { FAQContext } from "./FAQContext";
 import type { FAQContextType } from "./FAQContext";
 import type { Tab } from "../../../types/tab";
@@ -20,6 +20,9 @@ export const FAQProvider = (props: Props) => {
   const [selectedCategoryId, setSelectedCategoryId] =
     useState<CategoryId>("ALL");
   const [searchValue, setSearchValue] = useState("");
+  const [selectedQuestionId, setSelectedQuestionId] = useState<number | null>(
+    null
+  );
 
   const { faqList, pageInfo } = useFetchFAQList({
     ...DEFAULT_PAGINATION,
@@ -28,21 +31,40 @@ export const FAQProvider = (props: Props) => {
     question: searchValue.length > 0 ? searchValue : undefined,
   });
 
-  const onTabChange = (tab: Tab) => {
-    setSelectedTab(tab);
-    setSelectedCategoryId("ALL");
-    setSearchValue("");
-  };
+  const onCategoryChange = useCallback(
+    (categoryId: CategoryId) => {
+      setSelectedCategoryId(categoryId);
+      setSelectedQuestionId(null);
+    },
+    [setSelectedCategoryId, setSelectedQuestionId]
+  );
+
+  const onTabChange = useCallback(
+    (tab: Tab) => {
+      setSelectedTab(tab);
+      setSelectedCategoryId("ALL");
+      setSearchValue("");
+      setSelectedQuestionId(null);
+    },
+    [
+      setSelectedTab,
+      setSelectedCategoryId,
+      setSearchValue,
+      setSelectedQuestionId,
+    ]
+  );
 
   const value: FAQContextType = {
     selectedTab,
     setSelectedTab: onTabChange,
     selectedCategoryId,
-    setSelectedCategoryId,
+    setSelectedCategoryId: onCategoryChange,
     searchValue,
     setSearchValue,
     faqList,
     pageInfo,
+    selectedQuestionId,
+    setSelectedQuestionId,
   };
 
   return <FAQContext.Provider value={value}>{children}</FAQContext.Provider>;

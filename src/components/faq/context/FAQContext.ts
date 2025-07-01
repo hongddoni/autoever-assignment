@@ -10,7 +10,9 @@ export interface FAQContextType {
   searchValue: string;
   faqList: FaqItem[];
   pageInfo: PaginationRs;
+  selectedQuestionId: number | null;
 
+  setSelectedQuestionId: (questionId: number | null) => void;
   setSelectedTab: (tab: Tab) => void;
   setSelectedCategoryId: (categoryId: CategoryId) => void;
   setSearchValue: (value: string) => void;

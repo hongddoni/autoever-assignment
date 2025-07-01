@@ -1,11 +1,7 @@
-import { useState } from "react";
 import { useFAQList } from "../context/useFAQList";
 
 export const FAQList = () => {
-  const { faqList } = useFAQList();
-  const [selectedQuestionId, setSelectedQuestionId] = useState<number | null>(
-    null
-  );
+  const { faqList, selectedQuestionId, setSelectedQuestionId } = useFAQList();
 
   const handleToggle = (id: number) => {
     if (id === selectedQuestionId) {

@@ -14,5 +14,7 @@ export const useFAQList = () => {
     setSearchValue: context.setSearchValue,
     faqList: context.faqList,
     pageInfo: context.pageInfo,
+    selectedQuestionId: context.selectedQuestionId,
+    setSelectedQuestionId: context.setSelectedQuestionId,
   };
 };
