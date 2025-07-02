@@ -1,3 +1,4 @@
+import { useRef, useEffect } from "react";
 import { useFAQList } from "../context/useFAQList";
 import { FAQEmpty } from "./FAQEmpty";
 
@@ -10,6 +11,8 @@ export const FAQList = () => {
     pageInfo,
   } = useFAQList();
 
+  const answerRefs = useRef<Map<number, HTMLDivElement>>(new Map());
+
   const handleToggle = (id: number) => {
     if (id === selectedQuestionId) {
       setSelectedQuestionId(null);
@@ -20,6 +23,25 @@ export const FAQList = () => {
 
   const handleMore = () => {
     loadMore();
+  };
+
+  useEffect(() => {
+    answerRefs.current.forEach((element, id) => {
+      if (selectedQuestionId === id) {
+        const scrollHeight = element.scrollHeight;
+        element.style.height = `${scrollHeight}px`;
+      } else {
+        element.style.height = "0px";
+      }
+    });
+  }, [selectedQuestionId]);
+
+  const setAnswerRef = (id: number) => (el: HTMLDivElement | null) => {
+    if (el) {
+      answerRefs.current.set(id, el);
+    } else {
+      answerRefs.current.delete(id);
+    }
   };
 
   if (faqList.length === 0) {
@@ -51,9 +73,14 @@ export const FAQList = () => {
             </h4>
 
             <div
+              ref={setAnswerRef(item.id)}
               className={"q"}
               data-ui-target="true"
-              style={{ height: selectedQuestionId === item.id ? "auto" : "0" }}
+              style={{
+                height: "0px",
+                overflow: "hidden",
+                transition: "height 0.3s ease-in-out",
+              }}
             >
               <div className={"inner"}>
                 <p dangerouslySetInnerHTML={{ __html: item.answer }} />
