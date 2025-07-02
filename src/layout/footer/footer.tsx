@@ -1,4 +1,9 @@
+import { useModal } from "../../components/modal/useModal";
+import { JoinServiceUse } from "./joinServiceUse/JoinServiceUse";
+
 export const Footer = () => {
+  const modal = useModal();
+
   return (
     <footer>
       <div className="inner">
@@ -7,7 +12,9 @@ export const Footer = () => {
             <button type="button">
               <b>개인정보 처리방침</b>
             </button>
-            <button type="button">이용약관</button>
+            <button type="button" onClick={modal.open}>
+              이용약관
+            </button>
           </span>
           <address>
             <span>
@@ -37,6 +44,7 @@ export const Footer = () => {
         </div>
         <p className="copyright">© 2023 KIA CORP. All Rights Reserved.</p>
       </div>
+      <JoinServiceUse isOpen={modal.isOpen} onClose={modal.close} />
     </footer>
   );
 };
